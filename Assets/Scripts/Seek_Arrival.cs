@@ -4,40 +4,33 @@ using UnityEngine;
 
 public class Seek_Arrival : MonoBehaviour
 {
-    public Transform target;
-    public float deceleration;
-    public float radiusArrival;
-    public float speed;
-    
-    
+    [SerializeField]
+    private Transform target;
+    [SerializeField]
+    private float max_speed;
+    [SerializeField]
+    private Vector3 Velocity;
+    [SerializeField]
+    private float slowingRadius;
 
-    private void Update()
+    void Update()
     {
-        if (target != null)
+        Vector3 position = transform.position;
+        Vector3 desired_velocity = (target.position - position).normalized * max_speed;
+        Vector3 steering = desired_velocity - Velocity;
+
+        var distance = Vector3.Distance(transform.position, target.position);
+        if (distance <= slowingRadius)
         {
-            Vector3 direction = target.position - transform.position;
-            float distance = direction.magnitude;
-
-
-
-
-            if (distance <= radiusArrival)
-            {
-                //---------Se calcula la desaceleración-----//
-
-                float desiredSpeed = speed * (distance / radiusArrival);
-                Vector3 desiredVelocity = direction.normalized * desiredSpeed;
-
-                Vector3 acceleration = (desiredVelocity - GetComponent<Rigidbody>().velocity) / deceleration;
-
-                //-------Se añaden las fuerzas y el Rigidbody---------//
-                GetComponent<Rigidbody>().AddForce(acceleration, ForceMode.Acceleration);
-            }
-            else
-            {
-                Vector3 velocity = direction.normalized * speed;
-                GetComponent<Rigidbody>().velocity = velocity;
-            }
+            desired_velocity = (desired_velocity).normalized * (max_speed * (distance / slowingRadius));
         }
+        else
+        {
+            desired_velocity = (desired_velocity).normalized * max_speed;
+        }
+
+        steering = desired_velocity - Velocity;
+        Velocity = Vector2.ClampMagnitude(Velocity + steering, max_speed);
+        transform.position += Velocity * Time.deltaTime;
     }
 }

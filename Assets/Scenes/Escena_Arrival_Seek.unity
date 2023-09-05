@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 907878944}
   deceleration: 0.5
-  radiusArrival: 4
+  radiusArrival: 6
   speed: 5
 --- !u!212 &69968151
 SpriteRenderer:
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 907878944}
   deceleration: 0.5
-  radiusArrival: 4
+  radiusArrival: 10
   speed: 2
 --- !u!212 &220030268
 SpriteRenderer:
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 907878944}
   deceleration: 0.5
-  radiusArrival: 4
+  radiusArrival: 2
   speed: 4
 --- !u!212 &534174990
 SpriteRenderer:

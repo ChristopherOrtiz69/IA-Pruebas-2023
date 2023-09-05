@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class Running_Away : MonoBehaviour
 {
-    public Transform target;
-    private float max_Speed = -5f;
-    public Vector3 velocity;
+    [SerializeField]
+    private Transform target;
+    [SerializeField]
+    private float max_velocity;
+    [SerializeField]
+    private Vector3 Velocity;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Vector3 position = transform.position;
-
-
-        Vector3 desired_velocity = (target.position - position).normalized * max_Speed;
-
-        Vector3 steering = desired_velocity - velocity;
-
-
-        //-------- Actualizacion de movimiento ---------//
-
-        velocity = Vector2.ClampMagnitude(velocity + steering, max_Speed);
-        transform.position += velocity * Time.deltaTime;
+        Vector3 flee_desired_velocity = (position - target.position).normalized * max_velocity;
+        Vector3 seek_desired_velocity = flee_desired_velocity - Velocity;
+        Velocity = Vector2.ClampMagnitude(Velocity + seek_desired_velocity, max_velocity);
+        transform.position += Velocity * Time.deltaTime;
     }
 }
